@@ -1,3 +1,9 @@
+# Lista non esaustiva delle modifiche
+- locale impostato su it
+- sostituito latexmk con pdflatex
+- cambiata funzione di read dei file yaml
+- modificato terminale in alacritty, bash e nvim
+
 # Managing LaTeX lecture notes
 
 This repository complements my [third blog post about my note taking setup](https://castel.dev/post/lecture-notes-3).
