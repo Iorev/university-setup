@@ -8,12 +8,13 @@ lectures = Courses().current.lectures
 sorted_lectures = sorted(lectures, key=lambda l: -l.number)
 
 options = [
-    "{number: >2}. <b>{title: <{fill}}</b> <span size='smaller'>{date}  ({week})</span>".format(
+    "{number: >2}. <b>{title: <{fill}}</b> <span size='smaller'>{date}</span>".format(
+    #"{number: >2}. <b>{title: <{fill}}</b> <span size='smaller'>{date}  ({week})</span>".format(
         fill=MAX_LEN,
         number=lecture.number,
         title=generate_short_title(lecture.title),
         date=lecture.date.strftime('%a %d %b'),
-        week=lecture.week
+        #week=lecture.week
     )
     for lecture in sorted_lectures
 ]

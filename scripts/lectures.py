@@ -11,7 +11,7 @@ import subprocess
 from config import get_week, DATE_FORMAT, CURRENT_COURSE_ROOT
 
 # TODO
-locale.setlocale(locale.LC_TIME, "nl_BE.utf8")
+locale.setlocale(locale.LC_TIME, "it_IT.utf8")
 
 
 def number2filename(n):
@@ -45,9 +45,9 @@ class Lecture():
 
     def edit(self):
         subprocess.Popen([
-            "x-terminal-emulator",
-            "-e", "zsh", "-i", "-c",
-            f"\\vim --servername kulak --remote-silent {str(self.file_path)}"
+            "alacritty",
+            "-e", "bash", "-i", "-c",
+            f"\\nvim  {str(self.file_path)}"
         ])
 
     def __str__(self):
@@ -141,7 +141,7 @@ class Lectures(list):
 
     def compile_master(self):
         result = subprocess.run(
-            ['latexmk', '-f', '-interaction=nonstopmode', str(self.master_file)],
+            ['pdflatex', '-f', '-interaction=nonstopmode', str(self.master_file)],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             cwd=str(self.root)
