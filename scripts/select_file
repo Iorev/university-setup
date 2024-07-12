@@ -1,0 +1,57 @@
+#!/bin/bash
+default_folder_path="/home/lorev/current_course/"
+if [[ $1 == /home/lorev/current_course/* ]]; then
+    folder_path="$1"
+else
+    folder_path="${default_folder_path}$1"
+fi
+
+mapfile -t files < <(find "$folder_path" -mindepth 1 -maxdepth 1 -type f \( ! -iname "*.aux" -a ! -iname "*.log" -a ! -iname "*.latexmain" -a ! -iname "*.out" -a ! -iname "*.toc" -a ! -regex '.*/lec_[0-9][0-9]\.tex' -a ! -iname "master.tex"   \))
+
+
+if [[  ${#files[@]} -eq 0 ]]; then
+    echo "Nessun file trovato nel percorso specificato."
+    exit 1
+fi
+
+file_names=""
+for file in "${files[@]}"; do
+    file_name=$(basename "$file")
+    file_names+="$file_name"$'\n'
+done
+# Debug: stampa i nomi dei file
+echo "Nomi dei file trovati:"
+echo "$file_names"
+
+selected_file_name=$(echo -e "$file_names" | rofi -dmenu -p "Scegli un file" -i)
+# Debug: controlla se Rofi ha ricevuto input
+if [[ -z "$selected_file_name" ]]; then
+    echo "Nessun file selezionato."
+    exit 1
+fi
+
+# Trova il percorso completo del file selezionato
+selected_file=""
+for file in "${files[@]}"; do
+    if [[ "$(basename "$file")" == "$selected_file_name" ]]; then
+        selected_file="$file"
+        break
+    fi
+done
+
+# Debug: controlla se il file selezionato è stato trovato
+if [[ -z "$selected_file" ]]; then
+    echo "File selezionato non trovato."
+    echo "File selezionato: '$selected_file'"
+    exit 1
+fi
+
+# Esegui l'applicazione appropriata
+case "$selected_file" in
+    *.pdf)
+        zathura "$selected_file"
+        ;;
+    *)
+        kitty nvim "$selected_file"
+        ;;
+esac

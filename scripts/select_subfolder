@@ -1,0 +1,45 @@
+#!/bin/bash
+
+default_folder_path="/home/lorev/current_course/"
+select_subfolder() {
+	local folder_path="$1"
+	while true; do 
+	# Trova tutte le sottocartelle in current_course
+	readarray -d '' subfolders < <(find "$folder_path" -mindepth 1 -maxdepth 1 -type d -print0)	
+	echo "Elenco delle sottocartelle trovate:"
+	echo "$subfolders"
+
+	if [[ -z "$subfolders" ]];then 
+		echo "non ci sono subfolders in $folder_path"
+		# Esegui lo script select_file con il nome della sottocartella come argomento
+		/home/lorev/university-setup/scripts/select_file "$folder_path"
+		exit 0
+	fi
+	# Estrai solo i nomi delle sottocartelle (senza il percorso completo)
+#	subfolder_names=$(echo "$subfolders" | xargs -0 -n 1 basename)
+
+# Inizializza una variabile per contenere i nomi delle sottocartelle
+       subfolder_names=""
+        for subfolder in "${subfolders[@]}"; do
+            subfolder_name=$(basename "$subfolder")
+            subfolder_names+="$subfolder_name"$'\n'
+        done
+	subfolder_names=${subfolder_names%$'\n'}
+	echo "Nomi delle sottocartelle per Rofi:"
+	echo "$subfolder_names"
+	# Mostra le sottocartelle in Rofi e permetti di selezionare una
+	selected_subfolder=$(echo -e "$subfolder_names" | rofi -dmenu -p "Scegli una sottocartella")
+
+	# Controlla se è stata selezionata una sottocartella
+	if [[ -z "$selected_subfolder" ]]; then
+	    echo "Nessuna sottocartella selezionata."
+	    exit 1
+	fi
+	
+	# aggiorna percorso cartella e printa
+	folder_path="$folder_path$selected_subfolder/"
+	echo "------- Selezione della sottocartella: $folder_path"
+done
+}
+
+select_subfolder "$default_folder_path"
