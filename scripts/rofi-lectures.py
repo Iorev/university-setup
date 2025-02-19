@@ -21,6 +21,7 @@ options = [
 
 key, index, selected = rofi('Select lecture', options, [
     '-lines', 5,
+    '-no-auto-select',
     '-markup-rows',
     '-kb-row-down', 'Down',
     '-kb-custom-1', 'Ctrl+n'
