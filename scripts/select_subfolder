@@ -1,11 +1,12 @@
 #!/bin/bash
-
 default_folder_path="/home/lorev/current_course/"
-select_subfolder() {
-	local folder_path="$1"
-	while true; do 
+	folder_path="$1"
 	# Trova tutte le sottocartelle in current_course
-	readarray -d '' subfolders < <(find "$folder_path" -mindepth 1 -maxdepth 1 -type d -print0)	
+        if [[ -z "$folder_path" ]];then
+            echo "Defaulting to current_course"
+            folder_path="$default_folder_path"
+        fi
+ 	readarray -d '' subfolders < <(find "$folder_path" -mindepth 1 -maxdepth 1 -type d -print0)	
 	echo "Elenco delle sottocartelle trovate:"
 	echo "$subfolders"
 
@@ -35,11 +36,7 @@ select_subfolder() {
 	    echo "Nessuna sottocartella selezionata."
 	    exit 1
 	fi
-	
-	# aggiorna percorso cartella e printa
+      	# aggiorna percorso cartella e printa
 	folder_path="$folder_path$selected_subfolder/"
 	echo "------- Selezione della sottocartella: $folder_path"
-done
-}
-
-select_subfolder "$default_folder_path"
+        bash ~/university-setup/scripts/select_file "$selected_subfolder"
