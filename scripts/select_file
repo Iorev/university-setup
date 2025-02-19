@@ -5,8 +5,9 @@ if [[ $1 == /home/lorev/current_course/* ]]; then
 else
     folder_path="${default_folder_path}$1"
 fi
+echo "$folder_path"
 
-mapfile -t files < <(find "$folder_path" -mindepth 1 -maxdepth 1 -type f \( ! -iname "*.aux" -a ! -iname "*.log" -a ! -iname "*.latexmain" -a ! -iname "*.out" -a ! -iname "*.toc" -a ! -regex '.*/lec_[0-9][0-9]\.tex' -a ! -iname "master.tex"   \))
+mapfile -t files < <(find "$folder_path" -mindepth 1 -maxdepth 1 -type f \( ! -iname "*.aux" -a ! -iname "*.log" -a ! -iname "*.latexmain" -a ! -iname "*.out" -a ! -iname "*.toc" -a ! -regex '.*/lec_[0-9][0-9]\.tex' -a ! -iname "*.fdb_latexmk" -a ! -iname "*.fls"  -a ! -iname "*.gz" -a ! -iname "*.nav" -a ! -iname "*.sty" -a ! -iname "*.snm" \) | sort)
 
 
 if [[  ${#files[@]} -eq 0 ]]; then
@@ -17,13 +18,18 @@ fi
 file_names=""
 for file in "${files[@]}"; do
     file_name=$(basename "$file")
-    file_names+="$file_name"$'\n'
+    file_names+="$file_name"
+ # Add a newline if not the last file
+    if [[ $i -lt $(( ${#files[@]} - 1 )) ]]; then
+        file_names+=$'\n'
+	echo "$i"
+    fi
 done
 # Debug: stampa i nomi dei file
 echo "Nomi dei file trovati:"
 echo "$file_names"
 
-selected_file_name=$(echo -e "$file_names" | rofi -dmenu -p "Scegli un file" -i)
+selected_file_name=$(echo -e "$file_names" | rofi -dmenu -kb-custom-1 "Ctrl+y" -p "Scegli un file" -i )
 # Debug: controlla se Rofi ha ricevuto input
 if [[ -z "$selected_file_name" ]]; then
     echo "Nessun file selezionato."
@@ -45,12 +51,37 @@ if [[ -z "$selected_file" ]]; then
     echo "File selezionato: '$selected_file'"
     exit 1
 fi
-
+# Funzione per gestire la rinominazione del file
+function rename_file {
+    local file="$1"
+    if [[ "$file" == *.mp4 ]]; then
+        if [[ "$file" == done-* ]]; then
+            new_name="${file#done-}"
+            mv "$file" "$new_name"
+            echo "File rinominato in: $new_name"
+        else
+            new_name="done-$(basename "$file")"
+            mv "$file" "$(dirname "$file")/$new_name"
+            echo "File rinominato in: $new_name"
+        fi
+    else
+        echo "Rinominazione non applicabile: non è un file mp4."
+    fi
+}
+# Trap per custom keybinding
+if [[ "$selected_file_name" == "Ctrl+y" ]]; then
+    rename_file "$selected_file"
+    exit 0
+fi
+ 
 # Esegui l'applicazione appropriata
 case "$selected_file" in
     *.pdf)
         zathura "$selected_file"
         ;;
+    *.mp4)
+	vlc "$selected_file"
+	;;
     *)
         kitty nvim "$selected_file"
         ;;
