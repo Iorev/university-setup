@@ -29,7 +29,7 @@ done
 echo "Nomi dei file trovati:"
 echo "$file_names"
 
-selected_file_name=$(echo -e "$file_names" | rofi -dmenu -kb-custom-1 "Ctrl+y" -p "Scegli un file" -i )
+selected_file_name=$(echo -e "$file_names" | rofi -dmenu -kb-custom-1 "Ctrl+y" -p "Scegli un file" -i -auto-select)
 # Debug: controlla se Rofi ha ricevuto input
 if [[ -z "$selected_file_name" ]]; then
     echo "Nessun file selezionato."
@@ -54,6 +54,7 @@ fi
 # Funzione per gestire la rinominazione del file
 function rename_file {
     local file="$1"
+    echo "sto rinominando il file"
     if [[ "$file" == *.mp4 ]]; then
         if [[ "$file" == done-* ]]; then
             new_name="${file#done-}"

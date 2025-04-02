@@ -29,7 +29,7 @@ default_folder_path="/home/lorev/current_course/"
 	echo "Nomi delle sottocartelle per Rofi:"
 	echo "$subfolder_names"
 	# Mostra le sottocartelle in Rofi e permetti di selezionare una
-	selected_subfolder=$(echo -e "$subfolder_names" | rofi -dmenu -p "Scegli una sottocartella")
+	selected_subfolder=$(echo -e "$subfolder_names" | rofi -dmenu -p "Scegli una sottocartella" -i -auto-select)
 
 	# Controlla se è stata selezionata una sottocartella
 	if [[ -z "$selected_subfolder" ]]; then
