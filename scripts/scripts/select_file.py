@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
-from rofi import rofi
+from unilib.rofi import rofi
 
 # Funzione per rinominare il file
 def rename_file(file_path):

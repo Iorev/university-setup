@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 from pathlib import Path
 import yaml
-
-from lectures import Lectures
-from config import ROOT, CURRENT_COURSE_ROOT, CURRENT_COURSE_SYMLINK, CURRENT_COURSE_WATCH_FILE
+from unilib.lectures import Lectures
+from unilib.config import ROOT, CURRENT_COURSE_ROOT, CURRENT_COURSE_SYMLINK, CURRENT_COURSE_WATCH_FILE
 
 class Course():
     def __init__(self, path):

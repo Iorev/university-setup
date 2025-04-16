@@ -1,5 +1,5 @@
 #!/bin/python3
-from courses import Courses
+from unilib.courses import Courses
 
 for course in Courses():
     lectures = course.lectures

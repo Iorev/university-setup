@@ -20,8 +20,8 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
-from courses import Courses
-from config import USERCALENDARID
+from unilib.courses import Courses
+from unilib.config import USERCALENDARID
 
 courses = Courses()
 

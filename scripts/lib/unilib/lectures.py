@@ -8,7 +8,7 @@ import re
 import subprocess
 
 
-from config import get_week, DATE_FORMAT, CURRENT_COURSE_ROOT
+from unilib.config import get_week, DATE_FORMAT, CURRENT_COURSE_ROOT
 
 # TODO
 locale.setlocale(locale.LC_TIME, "it_IT.utf8")

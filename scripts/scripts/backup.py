@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 import shutil
 from pathlib import Path
-from courses import Courses
+from unilib.courses import Courses
 import subprocess
 DESTINATION_DIR = '/home/lorev/ownCloud/appunti pdf/'
 DST_FILES_DIR = '/home/lorev/ownCloud/polimi/'
+counter = 0
 try:
     for course in Courses():
+        counter = counter + 1
         NTFY_TITLE = f'{course.name}'
         NTFY_SUBTITLE = 'backup effettuato!'
         try:
@@ -35,6 +37,7 @@ try:
                 dst = DESTINATION_DIR + course.name +'.pdf'
                 shutil.copyfile(output_pdf, Path(dst).expanduser())
                 subprocess.run(['dunstify',"✅" + NTFY_TITLE,NTFY_SUBTITLE])
+                counter = counter -1
             else:
                 subprocess.run(['dunstify',"-b","-u","critical","-t"," 10000","❌" +NTFY_TITLE,"backup failed, file doesn't exists"])
                 print(f'❌Il file {output_pdf} non esiste.')
@@ -43,6 +46,8 @@ try:
     
         except Exception as e:
                 subprocess.run(['dunstify',"-b","-u","critical","-t","10000","❌"+NTFY_TITLE,f"backup failed! {e}"])
-    
 except Exception as e:
                 subprocess.run(['dunstify',"-b", "-u","critical","-t","10000","❌"+"ERROR!!!",f"backup failed! {e}"])
+if counter == 0:
+    subprocess.run(['dunstify',"✅✅✅" + "BACKUP COMPLETATO!✅✅✅"])
+

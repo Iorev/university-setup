@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-from rofi import rofi
+from unilib.rofi import rofi
 
-from courses import Courses
+from unilib.courses import Courses
 
 courses = Courses()
 current = courses.current
