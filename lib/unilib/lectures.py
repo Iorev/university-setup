@@ -45,8 +45,8 @@ class Lecture():
 
     def edit(self):
         subprocess.Popen([
-            "kitty",
-            "-e", "bash", "-i", "-c",
+            "alacritty",
+            "-e", "bash", "-i", 
             f"\\nvim  {str(self.file_path)}"
         ])
 
