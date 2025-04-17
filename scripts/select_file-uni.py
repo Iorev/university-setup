@@ -84,4 +84,4 @@ if selected_file.suffix == '.pdf':
 elif selected_file.suffix == '.mp4':
     subprocess.run(['vlc', str(selected_file)])
 else:
-    subprocess.run(['kitty', 'nvim', str(selected_file)])
+    subprocess.run(['alacritty', 'nvim', str(selected_file)])

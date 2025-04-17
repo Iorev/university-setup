@@ -84,6 +84,6 @@ case "$selected_file" in
 	vlc "$selected_file"
 	;;
     *)
-        kitty nvim "$selected_file"
+        alacritty nvim "$selected_file"
         ;;
 esac
