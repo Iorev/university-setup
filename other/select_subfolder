@@ -39,4 +39,4 @@ default_folder_path="/home/lorev/current_course/"
       	# aggiorna percorso cartella e printa
 	folder_path="$folder_path$selected_subfolder/"
 	echo "------- Selezione della sottocartella: $folder_path"
-        bash ~/university-setup/scripts/select_file "$selected_subfolder"
+        bash ~/university-setup/other/select_file "$selected_subfolder"
