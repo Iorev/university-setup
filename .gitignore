@@ -1,3 +1,5 @@
 scripts/__pycache__
 scripts/polimi_recordings_downloader/
 scripts/PoliWebex/
+PoliWebex/
+polimi_recordings_downloader/
