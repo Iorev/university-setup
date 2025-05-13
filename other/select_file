@@ -81,7 +81,7 @@ case "$selected_file" in
         zathura "$selected_file"
         ;;
     *.mp4)
-	vlc "$selected_file"
+	mpv "$selected_file"
 	;;
     *)
         alacritty -e nvim "$selected_file"

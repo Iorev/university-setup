@@ -82,6 +82,6 @@ if key == 1:
 if selected_file.suffix == '.pdf':
     subprocess.run(['zathura', str(selected_file)])
 elif selected_file.suffix == '.mp4':
-    subprocess.run(['vlc', str(selected_file)])
+    subprocess.run(['mpv', str(selected_file)])
 else:
     subprocess.run(['alacritty','-e', 'nvim', str(selected_file)])
